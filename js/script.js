@@ -17,7 +17,7 @@ var obTarea ={}
 }*/
 
 function crearTarea(titulo,desc){
-    this.id=Date.now()             //metodo para generar el id unico
+    this.id=todo+Date.now()             //metodo para generar el id unico
     this.titulo= titulo
     this.desc=desc
     this.completado = false
@@ -35,6 +35,11 @@ var almacenar = function (id,tarea) {
     localStorage.setItem(id,JSON.stringify(tarea))
     tarea.id
     mostrarTareas(tarea.id,tarea.titulo,tarea.desc)
+}
+
+var recuperarTareas = function (){
+
+    localStorage.getItem(id,JSON.stringify(tarea))
 }
 
 var mostrarTareas= function (id,titulo,desc){
