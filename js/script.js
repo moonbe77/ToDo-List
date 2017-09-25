@@ -17,7 +17,7 @@ var obTarea ={}
 }*/
 
 function crearTarea(titulo,desc){
-    this.id=todo+Date.now()             //metodo para generar el id unico
+    this.id="td"+Date.now()             //metodo para generar el id unico
     this.titulo= titulo
     this.desc=desc
     this.completado = false
@@ -38,8 +38,17 @@ var almacenar = function (id,tarea) {
 }
 
 var recuperarTareas = function (){
+    for (x=0; x<=localStorage.length-1; x++)  {  
+        clave = localStorage.key(x); 
+        //console.log(clave)
+        var tareaID = localStorage.getItem(clave) 
+        if (clave.indexOf("td") != -1) {
+            console.log(tareaID)
+            var tarea = JSON.parse(tareaID)
+            mostrarTareas(tarea.id,tarea.titulo,tarea.desc)         
+        }
+      }
 
-    localStorage.getItem(id,JSON.stringify(tarea))
 }
 
 var mostrarTareas= function (id,titulo,desc){
