@@ -1,5 +1,5 @@
 /*
-1.ingresar tareas (asignar: id unico, titulo, descripcion,      completado)"objeto"dentro de un array
+1.ingresar tareas (asignar: id unico, titulo, descripcion,completado)"objeto"dentro de un array
 2. mostrar las tareas ingresadas
 3. formatear las tareas segun el estado
 4. metodos para eliminar , completar, descompletar, editar,     buscar
@@ -17,7 +17,7 @@ var obTarea ={}
 }*/
 
 function crearTarea(titulo,desc){
-    this.id="td"+Date.now()             //metodo para generar el id unico
+    this.id="td"+Date.now()  //metodo para generar el id unico
     this.titulo= titulo
     this.desc=desc
     this.completado = false
@@ -37,13 +37,13 @@ var almacenar = function (id,tarea) {
     mostrarTareas(tarea.id,tarea.titulo,tarea.desc)
 }
 
-var recuperarTareas = function (){
+var recuperarTareas = function (){ //busco las tareas en LS y las muestro usando la funcion mostrarTareas()
     for (x=0; x<=localStorage.length-1; x++)  {  
         clave = localStorage.key(x); 
         //console.log(clave)
         var tareaID = localStorage.getItem(clave) 
         if (clave.indexOf("td") != -1) {
-            console.log(tareaID)
+            //console.log(tareaID)
             var tarea = JSON.parse(tareaID)
             mostrarTareas(tarea.id,tarea.titulo,tarea.desc)         
         }
@@ -52,8 +52,16 @@ var recuperarTareas = function (){
 }
 
 var mostrarTareas= function (id,titulo,desc){
+    
 var newBox = document.createElement("div")
-var contenido = '<div class="box"><div class="id">'+id+'</div><div class="titulo">'+titulo+'</div><div class="descr">   '+desc+'</div><nav class="level is-mobile"><div class="level-left"><a class="level-item"><span class="icon is-small"><i class="fa fa-reply"></i></span></a><a class="level-item"><span class="icon is-small"><i class="fa fa-retweet"></i></span>    </a><a class="level-item"><span class="icon is-small"><i class="fa fa-heart"></i></span>    </a></div></nav></div>';
+var contenido = '<div class="box"><div class="id">Id: '+id+'</div><div class="titulo"><b> Titulo:'+titulo+'</b></div><div class="descr">Tarea: '+desc+'</div><nav class="level is-mobile"><div class="level-left"><a class="level-item" onclick="removeTask('+id+')" title="Eliminar Tarea"><span class="icon is-small"><i class="fa fa-trash-o"></i></span></a><a class="level-item"><span class="icon is-small"><i class="fa fa-pencil" title="Editar"></i></span>    </a><a class="level-item"><span class="icon is-small"><i class="fa fa-heart"></i></span>    </a></div></nav></div>';
 newBox.innerHTML = contenido
 showTask.appendChild(newBox)
+}
+
+var removeTask = function(id){
+    localStorage.removeItem(id);
+    console.log("Removiendo Tarea id= ",id)
+    showTask.innerHTML = ""
+    recuperarTareas()
 }
