@@ -6,6 +6,7 @@
     <title>ToDo List!</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.min.css">
+    <link rel="stylesheet" href="style/style.css">
   </head>
   <body onload=" recuperarTareas()">
   <section class="section">
@@ -21,7 +22,6 @@
             No Hay Tareas pendientes
           </div>          
           <div class="column">
-            <button onclick="removeTask('td1506371502162')"> test </button> 
               <h3 class="title is-3">Crea una tarea</h3>  
               <div class="form">
                   <form id="formCreate" onsubmit="addTask(event)">
@@ -30,14 +30,14 @@
                         <div class="control">
                           <input class="input" type="text" name="titulo" placeholder="Text input">
                         </div>
-                        <p class="help">Tiutlo de la tarea</p>
+                        <p class="help">Titulo de la tarea</p>
                       </div>
                       <div class="field">
                           <label class="label">Descripción</label>
                           <div class="control">
                             <textarea class="textarea"  name="desc" placeholder="Descripcion"></textarea>
                           </div>
-                          <p class="help">Tiutlo de la tarea</p>
+                          <p class="help">Descripción de la tarea</p>
                         </div>	
                         <div class="field is-grouped">
                             <div class="control">
@@ -50,10 +50,50 @@
                     </form> 
               </div>
           </div>
-        </div>
-        
+        </div>        
     </div>
   </section>
+  <div class="modal" id="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+          <form id="formCreate" onsubmit="ediatarTask(event)">
+
+              <div class="field">
+                  <label class="label">Id</label>
+                  <div class="control">
+                    <input class="input" type="text" name="id" id="modalId" placeholder="">
+                  </div>
+                  <p class="help">Tiutlo de la tarea</p>
+                </div>
+                
+              <div class="field">
+                <label class="label">Titulo</label>
+                <div class="control">
+                  <input class="input" type="text" id="modalTitulo" name="titulo" placeholder="">
+                </div>
+                <p class="help">Tiutlo de la tarea</p>
+              </div>
+
+              <div class="field">
+                  <label class="label">Descripción</label>
+                  <div class="control">
+                    <textarea class="textarea" id="modalDesc"  name="desc" placeholder=""></textarea>
+                  </div>
+                  <p class="help">Tiutlo de la tarea</p>
+              </div>	
+
+                <div class="field is-grouped">
+                    <div class="control">
+                      <button class="button is-primary">Submit</button>
+                    </div>
+                    <div class="control">
+                      <button type="reset" class="button is-link reset">Cancel</button>
+                    </div>
+                </div>	  
+            </form> 
+      </div>
+      <button class="modal-close is-large" aria-label="close" onclick="mostrarModal()"></button>
+    </div>
   <script src="js/script.js" ></script>
   </body>
 </html>
