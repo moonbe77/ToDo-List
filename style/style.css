@@ -2,3 +2,17 @@
     margin-bottom: 5px;
     box-shadow: -1px 1px 10px -2px black;
 }
+
+.modal{
+    color: white;
+}
+.modal > .container >.title{
+    color: white;
+}
+.modal-content > form > .field > .label{
+    color: white;
+}
+.form{
+    box-shadow: -1px 1px 10px -2px #dcb4ac;
+    padding: 10px;
+}

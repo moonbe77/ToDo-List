@@ -6,6 +6,7 @@
 
 */
 var form = document.getElementById("formCreate")
+var formModal = document.getElementById("formModal")
 var showTask = document.getElementById("showTask")
 var eliminar = document.getElementsByClassName("eliminar")
 var editar = document.getElementsByClassName("editar")
@@ -27,6 +28,12 @@ function crearTarea(titulo,desc){ //constructor del objeto tarea
     this.desc=desc
     this.completado = false
 }
+function modificarTarea(id,titulo,desc,realizado){ //constructor del objeto tarea
+    this.id=id  //metodo para generar el id unico
+    this.titulo= titulo
+    this.desc=desc
+    this.completado = realizado
+}
 var addTask= function(event){
     event.preventDefault()
     var titulo = form[0].value
@@ -38,20 +45,23 @@ var addTask= function(event){
 
 var almacenar = function (id,tarea) {
     localStorage.setItem(id,JSON.stringify(tarea))
-    tarea.id
-    mostrarTareas(tarea.id,tarea.titulo,tarea.desc)
+    //tarea.id    
+    showTask.innerHTML = ""
+    recuperarTareas()
 }
 
 var recuperarTareas = function (){ //busco las tareas en LocalStorage y las muestro usando la funcion mostrarTareas()
+ 
     for (x=0; x<=localStorage.length-1; x++)  {  
         clave = localStorage.key(x); 
         //console.log(clave)
         var tareaID = localStorage.getItem(clave) 
-        if (clave.indexOf("td") != -1) {
+        if (clave.indexOf("td") != -1) { //*****MEJORAR ESTA CONDICION PARA VER SI ES UN DATO DEL TODO LIST O OTRO*****
             //console.log(tareaID)
             var tarea = JSON.parse(tareaID)
             mostrarTareas(tarea.id,tarea.titulo,tarea.desc)         
-        }
+        }else{
+        showTask.innerHTML = "<h3>No hay tareas</h3>"}//esto solo se muestra si hay algun dato en LS y no es una clave de la todo list
       }
       crearEvento()
 }
@@ -82,13 +92,15 @@ var removeTask = function(event){
     recuperarTareas()    
 }
 
-var editarTask = function(){
+var editarTask = function(event){
     console.log("Editando=", event.currentTarget.parentNode.id)
-    //localStorage.removeItem(event.currentTarget.parentNode.id);
+
+    var tareaObjeto = localStorage.getItem(event.currentTarget.parentNode.id) 
     
-    var modalTitulo = document.getElementById("modalId").placeholder = event.currentTarget.parentNode.id    
-    var modalTitulo = document.getElementById("modalTitulo").placeholder = "Test"
-    var modalDesc = document.getElementById("modalDesc").placeholder = "test"
+        var tarea = JSON.parse(tareaObjeto)             
+        var modalTitulo = document.getElementById("modalId").value = tarea.id    
+        var modalTitulo = document.getElementById("modalTitulo").value = tarea.titulo
+        var modalDesc = document.getElementById("modalDesc").value = tarea.desc  
 
     mostrarModal()             
 }
@@ -112,11 +124,14 @@ var mostrarModal= function(){
     modal.classList.toggle("is-active") //con toggle lo que hace es agregar o quitar la clase si ya fue agregada    
 }
 
-var editarTarea = function (params) {
+var almacenarTareaEditada = function (event) {
     event.preventDefault()
-    var titulo = form[0].value
-    var desc = form[1].value
-        obTarea = new crearTarea(titulo,desc)
-        almacenar(obTarea.id,obTarea)
-    console.log(obTarea)
+    var tdId = formModal[0].value
+    var titulo = formModal[1].value
+    var desc = formModal[2].value
+    var realizado = "false"
+        objeto = new modificarTarea(tdId,titulo,desc,realizado)
+        almacenar(tdId,objeto)
+    console.log("Editado: ",objeto)
+    mostrarModal() 
 }

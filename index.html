@@ -18,10 +18,10 @@
          <strong>list</strong>!
       </p>
       <div class="columns">
-          <div class="column" id="showTask" >
-            No Hay Tareas pendientes
+          <div class="column is-one-quarter" id="showTask" >
+            
           </div>          
-          <div class="column">
+          <div class="column is-half ">
               <h3 class="title is-3">Crea una tarea</h3>  
               <div class="form">
                   <form id="formCreate" onsubmit="addTask(event)">
@@ -53,17 +53,18 @@
         </div>        
     </div>
   </section>
-  <div class="modal" id="modal">
-      <div class="modal-background"></div>
+  <div class="modal" id="modal">    
+    <div class="modal-background"></div>
+    <div class="container">
+      <h2 class="title is-medium">Editando una tarea</h2>
       <div class="modal-content">
-          <form id="formCreate" onsubmit="ediatarTask(event)">
+          <form id="formModal" onsubmit="almacenarTareaEditada(event)">
 
               <div class="field">
                   <label class="label">Id</label>
                   <div class="control">
-                    <input class="input" type="text" name="id" id="modalId" placeholder="">
+                    <input class="input" type="text" name="id" id="modalId" placeholder="" disabled>
                   </div>
-                  <p class="help">Tiutlo de la tarea</p>
                 </div>
                 
               <div class="field">
@@ -92,8 +93,24 @@
                 </div>	  
             </form> 
       </div>
+    </div>
       <button class="modal-close is-large" aria-label="close" onclick="mostrarModal()"></button>
     </div>
+    <footer class="footer">
+        <div class="container">
+          <div class="content has-text-centered">
+            <p>
+              <strong>ToDo-List</strong> by <a href="https://moonbe77.github.io/ToDo-List/">Beny Munz</a>. 
+               Libreria Bulma</a>.
+            </p>
+            <p>
+              <a class="icon" href="https://moonbe77.github.io/ToDo-List/">
+                <i class="fa fa-github"></i>
+              </a>
+            </p>
+          </div>
+        </div>
+      </footer>
   <script src="js/script.js" ></script>
   </body>
 </html>
