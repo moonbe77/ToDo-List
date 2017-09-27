@@ -16,3 +16,9 @@
     box-shadow: -1px 1px 10px -2px #dcb4ac;
     padding: 10px;
 }
+.completado-true{
+    background-color: #1cefcf;
+}
+.completado-false{
+    background-color: #F08C88;
+}

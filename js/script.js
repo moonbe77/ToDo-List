@@ -58,40 +58,45 @@ var recuperarTareas = function (){ //busco las tareas en LocalStorage y las mues
         var tareaID = localStorage.getItem(clave) 
         if (clave.indexOf("td") != -1) { //*****MEJORAR ESTA CONDICION PARA VER SI ES UN DATO DEL TODO LIST O OTRO*****
             //console.log(tareaID)
-            var tarea = JSON.parse(tareaID)
-            mostrarTareas(tarea.id,tarea.titulo,tarea.desc)         
+           
+                var tarea = JSON.parse(tareaID)
+            mostrarTareas(tarea.id,tarea.titulo,tarea.desc,tarea.completado) 
+            
+                    
         }else{
         showTask.innerHTML = "<h3>No hay tareas</h3>"}//esto solo se muestra si hay algun dato en LS y no es una clave de la todo list
       }
       crearEvento()
 }
 
-var mostrarTareas= function (id,titulo,desc){
-    var boxContent = '<div class="box">\
-    <div class="id">Id: '+id+'</div>\
-        <div class="titulo"><b> Titulo:'+titulo+'</b></div>\
-        <div class="descr">Tarea: '+desc+'</div>\
-        <nav class="level is-mobile" ><div class="level-left" id="'+id+'">\
-        <a class="level-item eliminar" title="Eliminar Tarea" dataID="'+id+'" dataID="'+id+'">\
-        <span class="icon is-small"><i class="fa fa-trash-o"></i></span></a>\
-        <a class="level-item editar" dataID="'+id+'"><span class="icon is-small"><i class="fa fa-pencil" title="Editar"></i></span></a>\
-        <a class="level-item realizado" dataID="'+id+'"><span class="icon is-small"><i class="fa fa-heart"></i></span></a>\
+var mostrarTareas= function (id,titulo,desc,estado){
+    
+
+    /*usando nueva sintaxis para concatenar variables*/
+    var boxContent = `<div class="box  ${'completado-'+estado}">\
+    <div class="id">Id: ${id}</div>\
+        <div class="titulo"><b>${titulo}</b></div>\
+        <div class="descr">${desc}</div>\
+        <nav class="level is-mobile" ><div class="level-left" id="${id}">\
+        <a class="level-item realizado" dataID="${id}"><span class="icon is-small"><i class="fa fa-check"></i></span></a>\
+        <a class="level-item editar" dataID="${id}"><span class="icon is-small"><i class="fa fa-pencil" title="Editar"></i></span></a>\
+        <a class="level-item eliminar" title="Eliminar Tarea" dataID="${id}" dataID="${id}"><span class="icon is-small"><i class="fa fa-trash-o"></i></span></a>\
         </div>\
         </nav>\
-    </div>';    
+    </div>`;    
     var newBox = document.createElement("div")
     newBox.innerHTML = boxContent
     showTask.appendChild(newBox)
     crearEvento()    
 }
-
+//funcion para eliminar tareas
 var removeTask = function(event){
     localStorage.removeItem(event.currentTarget.parentNode.id);
     console.log("Removiendo Tarea id=", event.currentTarget.parentNode.id)
     showTask.innerHTML = ""
     recuperarTareas()    
 }
-
+//funcion que carga los valores de la tarea en el formulario para editarlos y estos son almacenados por la funcion almacenarTareaEditada
 var editarTask = function(event){
     console.log("Editando=", event.currentTarget.parentNode.id)
 
@@ -105,9 +110,12 @@ var editarTask = function(event){
     mostrarModal()             
 }
 
-var realizarTask = function(){
-    //localStorage.removeItem(event.currentTarget.parentNode.id);
+var realizarTask = function(event){
     console.log("realizado=", event.currentTarget.parentNode.id)
+    var tareaObjeto = localStorage.getItem(event.currentTarget.parentNode.id)
+    var tarea = JSON.parse(tareaObjeto)  
+        tarea.completado = true 
+        localStorage.setItem(event.currentTarget.parentNode.id,JSON.stringify(tarea))
     showTask.innerHTML = ""
     recuperarTareas()  
 }
