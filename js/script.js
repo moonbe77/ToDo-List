@@ -1,9 +1,8 @@
 /*
-1.ingresar tareas (asignar: id unico, titulo, descripcion,completado)"objeto"dentro de un array
+1. ingresar tareas (asignar: id unico, titulo, descripcion,completado)"objeto"dentro de un array
 2. mostrar las tareas ingresadas
 3. formatear las tareas segun el estado
 4. metodos para eliminar , completar, descompletar, editar,     buscar
-
 */
 var form = document.getElementById("formCreate")
 var formModal = document.getElementById("formModal")
@@ -22,29 +21,30 @@ var obTarea ={}
     desc: "algo"
 }*/
 
-function crearTarea(titulo,desc){ //constructor del objeto tarea
-    this.id="td"+Date.now()  //metodo para generar el id unico
+function crearTarea(id,titulo,desc,realizado){ //constructor del objeto tarea
+    this.id= id
     this.titulo= titulo
     this.desc=desc
-    this.completado = false
+    this.completado = realizado //boleno es true or false
 }
-function modificarTarea(id,titulo,desc,realizado){ //constructor del objeto tarea
-    this.id=id  //metodo para generar el id unico
+/*function modificarTarea(id,titulo,desc,realizado){ //constructor del objeto tarea para modificarla
+    this.id=id  
     this.titulo= titulo
     this.desc=desc
     this.completado = realizado
-}
+}*/
 var addTask= function(event){
     event.preventDefault()
+    var id="td"+Date.now()  //metodo para generar el id unico
     var titulo = form[0].value
     var desc = form[1].value
-        obTarea = new crearTarea(titulo,desc)
+        obTarea = new crearTarea(id,titulo,desc,"false")
         almacenar(obTarea.id,obTarea)
     console.log(obTarea)
 }
 
-var almacenar = function (id,tarea) {
-    localStorage.setItem(id,JSON.stringify(tarea))
+var almacenar = function (id,obTarea) {
+    localStorage.setItem(id,JSON.stringify(obTarea))
     //tarea.id    
     showTask.innerHTML = ""
     recuperarTareas()
@@ -73,7 +73,7 @@ var mostrarTareas= function (id,titulo,desc,estado){
 
     /*usando nueva sintaxis para concatenar variables*/
     var boxContent = `<div class="box  ${'completado-'+estado}">\
-    <div class="id">Id: ${id}</div>\
+    <div class="id">Fecha: ${id}</div>\
         <div class="titulo"><b>${titulo}</b></div>\
         <div class="descr">${desc}</div>\
         <nav class="level is-mobile" ><div class="level-left" id="${id}">\
@@ -98,8 +98,8 @@ var removeTask = function(event){
 //funcion que carga los valores de la tarea en el formulario para editarlos y estos son almacenados por la funcion almacenarTareaEditada
 var editarTask = function(event){
     console.log("Editando=", event.currentTarget.parentNode.id)
-
-    var tareaObjeto = localStorage.getItem(event.currentTarget.parentNode.id) 
+    //recupero la tarea segun el parent id en LS
+    var tareaObjeto = localStorage.getItem(event.currentTarget.parentNode.id)
     
         var tarea = JSON.parse(tareaObjeto)             
         var modalTitulo = document.getElementById("modalId").value = tarea.id    
@@ -137,8 +137,17 @@ var almacenarTareaEditada = function (event) {
     var titulo = formModal[1].value
     var desc = formModal[2].value
     var realizado = "false"
-        objeto = new modificarTarea(tdId,titulo,desc,realizado)
+        objeto = new crearTarea(tdId,titulo,desc,realizado)
         almacenar(tdId,objeto)
     console.log("Editado: ",objeto)
     mostrarModal() 
+}
+
+var fecha = function(fechaT){
+    var fTarea = new Date(fechaT)
+    var tDia = fTarea.getDate()
+    var tMes = fTarea.getMonth()
+    var tAnio = fTarea.getYear()
+
+    
 }
