@@ -69,8 +69,7 @@ var recuperarTareas = function (){ //busco las tareas en LocalStorage y las mues
       crearEvento()
 }
 
-var mostrarTareas= function (id,titulo,desc,estado){
-    
+var mostrarTareas= function (id,titulo,desc,estado){  
 
     /*usando nueva sintaxis para concatenar variables*/
     var boxContent = `<div class="box  ${'completado-'+estado}">\
