@@ -11,15 +11,7 @@ var eliminar = document.getElementsByClassName("eliminar")
 var editar = document.getElementsByClassName("editar")
 var realizado = document.getElementsByClassName("realizado")
 var modal = document.getElementById("modal")
-var tareas = []// no es necesario
 var obTarea ={}
-
-//objeto tarea
-/*var objetoTarea = {
-    id: 0,
-    titulo:"algo",
-    desc: "algo"
-}*/
 
 function crearTarea(id,titulo,desc,realizado){ //constructor del objeto tarea
     this.id= id
@@ -27,12 +19,6 @@ function crearTarea(id,titulo,desc,realizado){ //constructor del objeto tarea
     this.desc=desc
     this.completado = realizado //boleno es true or false
 }
-/*function modificarTarea(id,titulo,desc,realizado){ //constructor del objeto tarea para modificarla
-    this.id=id  
-    this.titulo= titulo
-    this.desc=desc
-    this.completado = realizado
-}*/
 var addTask= function(event){
     event.preventDefault()
     var id="td"+Date.now()  //metodo para generar el id unico
@@ -42,14 +28,12 @@ var addTask= function(event){
         almacenar(obTarea.id,obTarea)
     console.log(obTarea)
 }
-
 var almacenar = function (id,obTarea) {
     localStorage.setItem(id,JSON.stringify(obTarea))
     //tarea.id    
     showTask.innerHTML = ""
     recuperarTareas()
 }
-
 var recuperarTareas = function (){ //busco las tareas en LocalStorage y las muestro usando la funcion mostrarTareas()
  
     for (x=0; x<=localStorage.length-1; x++)  {  
@@ -57,30 +41,30 @@ var recuperarTareas = function (){ //busco las tareas en LocalStorage y las mues
         //console.log(clave)
         var tareaID = localStorage.getItem(clave) 
         if (clave.indexOf("td") != -1) { //*****MEJORAR ESTA CONDICION PARA VER SI ES UN DATO DEL TODO LIST O OTRO*****
-            //console.log(tareaID)
-           
-                var tarea = JSON.parse(tareaID)
-            mostrarTareas(tarea.id,tarea.titulo,tarea.desc,tarea.completado) 
-            
-                    
+            //console.log(tareaID)           
+            var tarea = JSON.parse(tareaID)
+            mostrarTareas(tarea)
         }else{
         showTask.innerHTML = "<h3>No hay tareas</h3>"}//esto solo se muestra si hay algun dato en LS y no es una clave de la todo list
       }
       crearEvento()
 }
 
-var mostrarTareas= function (id,titulo,desc,estado){  
-
+var mostrarTareas= function (tarea){  
+        var res = Number(tarea.id.slice(2))
+        var fecha = devolverFecha(res)
     /*usando nueva sintaxis para concatenar variables*/
-    var boxContent = `<div class="box  ${'completado-'+estado}">\
-    <div class="id">Fecha: ${id}</div>\
-        <div class="titulo"><b>${titulo}</b></div>\
-        <div class="descr">${desc}</div>\
-        <nav class="level is-mobile" ><div class="level-left" id="${id}">\
-        <a class="level-item realizado" dataID="${id}"><span class="icon is-small"><i class="fa fa-check"></i></span></a>\
-        <a class="level-item editar" dataID="${id}"><span class="icon is-small"><i class="fa fa-pencil" title="Editar"></i></span></a>\
-        <a class="level-item eliminar" title="Eliminar Tarea" dataID="${id}" dataID="${id}"><span class="icon is-small"><i class="fa fa-trash-o"></i></span></a>\
-        </div>\
+    var boxContent = `
+    <div class="box  ${'completado-'+tarea.completado}">\
+        <div class="fecha">${fecha}</div>\
+        <div class="titulo is-primary is-bold center"><b>${tarea.titulo}</b></div>\
+        <div class="descr">${tarea.desc}</div>\
+        <nav class="level is-mobile" >
+            <div class="level-right" id="${tarea.id}">\
+                <a class="level-item realizado" dataID="${tarea.id}"><span class="icon"><i class="fa fa-check" title="Tarea Realizada"></i></span></a>\
+                <a class="level-item editar" dataID="${tarea.id}"><span class="icon"><i class="fa fa-pencil" title="Editar"></i></span></a>\
+                <a class="level-item eliminar" title="Eliminar Tarea" dataID="${tarea.id}" dataID="${tarea.id}"><span class="icon"><i class="fa fa-trash-o"></i></span></a>\
+            </div>\
         </nav>\
     </div>`;    
     var newBox = document.createElement("div")
@@ -143,11 +127,11 @@ var almacenarTareaEditada = function (event) {
     mostrarModal() 
 }
 
-var fecha = function(fechaT){
+var devolverFecha = function(fechaT){
     var fTarea = new Date(fechaT)
     var tDia = fTarea.getDate()
     var tMes = fTarea.getMonth()
-    var tAnio = fTarea.getYear()
-
-    
+    var tAnio = fTarea.getFullYear()
+    var  fecha = tDia+"/"+tMes+"/"+tAnio 
+    return fecha
 }
