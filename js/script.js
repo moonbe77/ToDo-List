@@ -74,8 +74,11 @@ var mostrarTareas= function (tarea){
 }
 //funcion para eliminar tareas
 var removeTask = function(event){
-    localStorage.removeItem(event.currentTarget.parentNode.id);
-    console.log("Removiendo Tarea id=", event.currentTarget.parentNode.id)
+    var r = confirm("estas Segur@!");
+    if (r == true) {
+        localStorage.removeItem(event.currentTarget.parentNode.id);
+        console.log("Removiendo Tarea id=", event.currentTarget.parentNode.id)
+    }    
     showTask.innerHTML = ""
     recuperarTareas()    
 }
