@@ -51,3 +51,12 @@ a{
 .level{
     justify-content: center;
 }
+
+.opciones {
+    display: flex;
+    background-color: #2a405f;
+    padding: 5px;
+    text-align: center;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
