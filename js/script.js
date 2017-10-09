@@ -22,7 +22,7 @@ var obTarea ={}
     desc: "algo"
 }*/
 
-function crearTarea(titulo,desc){ //constructor del objeto tarea
+function CrearTarea(titulo,desc){ //constructor del objeto tarea
     this.id="td"+Date.now()  //metodo para generar el id unico
     this.titulo= titulo
     this.desc=desc
@@ -38,7 +38,7 @@ var addTask= function(event){
     event.preventDefault()
     var titulo = form[0].value
     var desc = form[1].value
-        obTarea = new crearTarea(titulo,desc)
+        obTarea = new CrearTarea(titulo,desc)
         almacenar(obTarea.id,obTarea)
     console.log(obTarea)
 }
