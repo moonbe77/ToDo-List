@@ -30,7 +30,7 @@ a{
     border-top: 3px solid #9E2C00;
 }
 .titulo.is-primary.is-bold {
-    background-image:  linear-gradient(141deg,#b7b7b7 0,#f4f5f4 50%,#b7b7b7 100%);
+    background-image:  linear-gradient(141deg,#f0f0f0 0,#fff 50%, #f0f0f0 100%);
     padding: 6px 0;
     text-align: center;
 }
@@ -59,4 +59,8 @@ a{
     text-align: center;
     justify-content: space-around;
     margin-bottom: 10px;
+}
+
+.hero-body{
+    background-image: url('../img/header-background.jpg')
 }
