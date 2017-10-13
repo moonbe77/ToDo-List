@@ -5,7 +5,7 @@
 4. metodos para eliminar , completar, descompletar, editar,     buscar
 */
 
-var objetos={}
+var objetos=[]
 
 function CrearTarea(id,titulo,desc,realizado){ //constructor del objeto tarea
     this.id= id
@@ -40,11 +40,12 @@ var recuperarTareas = function (){ //busco las tareas en LocalStorage y las mues
             //console.log(tareaID)           
             var tarea = JSON.parse(tareaID)
             mostrarTareas(tarea)
-            objetos =+ tarea
+            objetos.push(tarea)
         }else{
         showTask.innerHTML = "<h3>No hay tareas</h3>"}//esto solo se muestra si hay algun dato en LS y no es una clave de la todo list
       }
       crearEvento()
+      console.log(objetos)
       return objetos
 }
 
@@ -102,7 +103,7 @@ var almacenarTareaEditada = function (event) {
 var devolverFecha = function(fechaT){
     var fTarea = new Date(fechaT)
     var tDia = fTarea.getDate()
-    var tMes = fTarea.getMonth()
+    var tMes = Number(fTarea.getMonth())+1 //el +1 es porque devuelve un array [0,1,2,3,...,11]
     var tAnio = fTarea.getFullYear()
     var  fecha = tDia+"/"+tMes+"/"+tAnio 
     return fecha
