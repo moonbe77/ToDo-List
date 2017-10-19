@@ -6,9 +6,9 @@ var editar = document.getElementsByClassName("editar")
 var realizado = document.getElementsByClassName("realizado")
 var modal = document.getElementById("modal")
 
-var mostrarTareas= function (tarea){  
-    var res = Number(tarea.id.slice(2))
-    var fecha = devolverFecha(res)
+var mostrarTareas= function (tarea){     
+    //var res = Number(tarea.id.slice(2)) //esta variable quita el td al id que es la fecha de cracion para obtener la fecha
+    var fecha = devolverFecha(tarea.id)
 /*usando nueva sintaxis para concatenar variables*/
 var boxContent = `
 <div class="box  ${'completado-'+tarea.completado}">\    
@@ -40,4 +40,18 @@ function crearEvento(){
         editar[i].addEventListener('click', editarTask)
         realizado[i].addEventListener('click', realizarTask)
     } 
+}
+
+//funcion que carga los valores de la tarea en el formulario para editarlos y estos son almacenados por la funcion almacenarTareaEditada
+var editarTask = function(event){
+    console.log("Editando=", event.currentTarget.parentNode.id)
+    //recupero la tarea segun el parent id en LS
+    var tareaObjeto = localStorage.getItem("td"+event.currentTarget.parentNode.id)
+    
+        var tarea = JSON.parse(tareaObjeto)             
+        var modalTitulo = document.getElementById("modalId").value = tarea.id    
+        var modalTitulo = document.getElementById("modalTitulo").value = tarea.titulo
+        var modalDesc = document.getElementById("modalDesc").value = tarea.desc  
+
+    mostrarModal()             
 }

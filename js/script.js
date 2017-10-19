@@ -16,22 +16,23 @@ function CrearTarea(id,titulo,desc,realizado){ //constructor del objeto tarea
 
 var addTask= function(event){
     event.preventDefault()
-    var id="td"+Date.now()  //metodo para generar el id unico
+    var id=Date.now()  //metodo para generar el id unico
     var titulo = form[0].value
     var desc = form[1].value
     var obTarea = new CrearTarea(id,titulo,desc,"false")
         almacenar(obTarea.id,obTarea)
     console.log(obTarea)
 }
+
 var almacenar = function (id,objetoTarea) {
-    localStorage.setItem(id,JSON.stringify(objetoTarea))
-    //tarea.id    
-    showTask.innerHTML = ""
+    localStorage.setItem("td"+id,JSON.stringify(objetoTarea))
+    //tarea.id       
     recuperarTareas()
 }
 
 var recuperarTareas = function (){ //busco las tareas en LocalStorage y las muestro usando la funcion mostrarTareas()
- 
+    showTask.innerHTML = "" 
+    objetos=[]
     for (x=0; x<=localStorage.length-1; x++)  {  
         clave = localStorage.key(x); 
         //console.log(clave)
@@ -44,34 +45,21 @@ var recuperarTareas = function (){ //busco las tareas en LocalStorage y las mues
         }else{
         showTask.innerHTML = "<h3>No hay tareas</h3>"}//esto solo se muestra si hay algun dato en LS y no es una clave de la todo list
       }
+    // ordenar(objetos)
       crearEvento()
       console.log(objetos)
-      return objetos
+      //return objetos
 }
-
 
 //funcion para eliminar tareas
 var removeTask = function(event){
     var r = confirm("estas Segur@!");
     if (r == true) {
-        localStorage.removeItem(event.currentTarget.parentNode.id);
+        localStorage.removeItem("td"+event.currentTarget.parentNode.id);
         console.log("Removiendo Tarea id=", event.currentTarget.parentNode.id)
     }    
     showTask.innerHTML = ""
     recuperarTareas()    
-}
-//funcion que carga los valores de la tarea en el formulario para editarlos y estos son almacenados por la funcion almacenarTareaEditada
-var editarTask = function(event){
-    console.log("Editando=", event.currentTarget.parentNode.id)
-    //recupero la tarea segun el parent id en LS
-    var tareaObjeto = localStorage.getItem(event.currentTarget.parentNode.id)
-    
-        var tarea = JSON.parse(tareaObjeto)             
-        var modalTitulo = document.getElementById("modalId").value = tarea.id    
-        var modalTitulo = document.getElementById("modalTitulo").value = tarea.titulo
-        var modalDesc = document.getElementById("modalDesc").value = tarea.desc  
-
-    mostrarModal()             
 }
 
 var realizarTask = function(event){
@@ -83,10 +71,6 @@ var realizarTask = function(event){
     showTask.innerHTML = ""
     recuperarTareas()  
 }
-
-
-
-
 
 var almacenarTareaEditada = function (event) {
     event.preventDefault()
@@ -105,10 +89,20 @@ var devolverFecha = function(fechaT){
     var tDia = fTarea.getDate()
     var tMes = Number(fTarea.getMonth())+1 //el +1 es porque devuelve un array [0,1,2,3,...,11]
     var tAnio = fTarea.getFullYear()
-    var  fecha = tDia+"/"+tMes+"/"+tAnio 
+    var tHour = fTarea.getHours()
+    var tMinuto = fTarea.getMinutes()
+    var  fecha = tDia+"/"+tMes+"/"+tAnio+" | "+tHour+":"+tMinuto  
     return fecha
 }
 
-var ordenar = function (){
-    //ordenar las tareas antes de mostrarlas
-}
+
+
+var ordenarPorId = function (objetos,sortOrder){//sortOrder debe ser 1 o -1
+    objetos.sort(function(a,b){ 
+        // La función de ordenamiento devuelve la comparación entre property de a y b.
+         // El resultado será afectado por sortOrder. 
+        return (a.id-b.id)*sortOrder; 
+    })
+    console.log("orden: "+ objetos)
+    return objetos
+    }
