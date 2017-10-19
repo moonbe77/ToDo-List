@@ -79,7 +79,7 @@ var realizarTask = function(event){
 
 var almacenarTareaEditada = function (event) {
     event.preventDefault()
-    var tdId = Number(formModal[0].value)
+    var tdId = Number(formModal[0].value) // paso a numero para que que al validar la fecha no de error por ser string
     var titulo = formModal[1].value
     var desc = formModal[2].value
     var realizado = "false"
