@@ -39,7 +39,8 @@
                       </div>
                     </div>
                 </div>    
-                <div id="showTask" ></div>       
+                <div id="showTask" ></div> 
+                <div id="fireBase" ></div> 
           </div>          
           <div class="column is-half ">
               <h3 class="title is-3">Crea una tarea</h3>  
@@ -131,6 +132,20 @@
           </div>
         </div>
       </footer>
+      
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDC4uGBqAFU0WgNvdUDaz-KrUEyGUQ1BAA",
+    authDomain: "todo-list-dac11.firebaseapp.com",
+    databaseURL: "https://todo-list-dac11.firebaseio.com",
+    projectId: "todo-list-dac11",
+    storageBucket: "",
+    messagingSenderId: "121395807433"
+  };
+  firebase.initializeApp(config);
+</script>
   <script src="js/render.js" ></script>
   <script src="js/script.js" ></script>
   </body>

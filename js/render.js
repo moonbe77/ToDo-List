@@ -5,6 +5,7 @@ var eliminar = document.getElementsByClassName("eliminar")
 var editar = document.getElementsByClassName("editar")
 var realizado = document.getElementsByClassName("realizado")
 var modal = document.getElementById("modal")
+var fireBase = document.getElementById("fireBase")
 
 var mostrarTareas= function (tarea){     
     //var res = Number(tarea.id.slice(2)) //esta variable quita el td al id que es la fecha de cracion para obtener la fecha
@@ -54,4 +55,29 @@ var editarTask = function(event){
         var modalDesc = document.getElementById("modalDesc").value = tarea.desc  
 
     mostrarModal()             
+}
+
+
+var mostrarTareasFireBase= function (tarea){     
+    //var res = Number(tarea.id.slice(2)) //esta variable quita el td al id que es la fecha de cracion para obtener la fecha
+    var fecha = devolverFecha(tarea.id)
+/*usando nueva sintaxis para concatenar variables*/
+var boxContent = `
+<div class="box  ${'completado-'+tarea.completado}">\    
+    <div class="titulo is-primary is-bold center"><b>${tarea.titulo}</b>
+    <div class="fecha">${fecha}</div>\
+    </div>\
+    <div class="descr">${tarea.desc}</div>\
+    <nav class="level is-mobile" >
+        <div class="level-right" id="${tarea.id}">\
+            <a class="level-item realizado" dataID="${tarea.id}"><span class="icon"><i class="fa fa-check" title="Tarea Realizada"></i></span></a>\
+            <a class="level-item editar" dataID="${tarea.id}"><span class="icon"><i class="fa fa-pencil" title="Editar"></i></span></a>\
+            <a class="level-item eliminar" title="Eliminar Tarea" dataID="${tarea.id}" dataID="${tarea.id}"><span class="icon"><i class="fa fa-trash-o"></i></span></a>\
+        </div>\
+    </nav>\
+</div>`;    
+var newBox = document.createElement("div")
+newBox.innerHTML = boxContent
+showTask.appendChild(newBox)
+crearEvento()    
 }

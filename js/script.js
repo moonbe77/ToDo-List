@@ -5,7 +5,23 @@
 4. metodos para eliminar , completar, descompletar, editar,     buscar
 */
 
+
+
+  // Get a reference to the database service
+var database = firebase.database();
+
+function writeUserData(userId, name, email, imageUrl) {
+    firebase.database().ref('users/' + userId).set({
+      username: name,
+      email: email,
+      profile_picture : imageUrl
+    });
+  }
+
+
+
 var objetos=[]
+var objetosFireBase=[]
 
 function CrearTarea(id,titulo,desc,realizado){ //constructor del objeto tarea
     this.id= id
@@ -25,16 +41,24 @@ var addTask= function(event){
 }
 
 var almacenar = function (id,objetoTarea) {
-    localStorage.setItem("td"+id,JSON.stringify(objetoTarea))
+    var idLS = "td"+id
+    localStorage.setItem(idLS,JSON.stringify(objetoTarea))
     //tarea.id       
     cargarTareas()
+
+    //test firebase
+    firebase.database().ref('tareas/' + id).set({        
+        titulo: objetoTarea.titulo,
+        desc : objetoTarea.desc,
+        completado : objetoTarea.completado,
+      });
 }
 
 var cargarTareas = function (tipoOrden){ //busco las tareas en LocalStorage y las muestro usando la funcion mostrarTareas()
     showTask.innerHTML = "" 
     objetos=[]
 
-    for (x=0; x<=localStorage.length-1; x++)  {  
+    for (x=0; x<=localStorage.length-1; x++) {  
         clave = localStorage.key(x); 
         //console.log(clave)
         var tareaID = localStorage.getItem(clave) 
@@ -43,13 +67,13 @@ var cargarTareas = function (tipoOrden){ //busco las tareas en LocalStorage y la
             var tarea = JSON.parse(tareaID)
             //mostrarTareas(tarea)
             objetos.push(tarea)
-        }else{
+        }else if (clave.indexOf("td") == -1){
             showTask.innerHTML = "<h3>No hay tareas</h3>"}//esto solo se muestra si hay algun dato en LS y no es una clave de la todo list
         }
         //muestro las tareas ordenadas desc con el parametro "1" para que sea ASC poner "-1"
-        ordenarPorId(objetos,"1")
+        ordenarPorId(objetos,"-1")
         for (var key in objetos) {
-            mostrarTareas(objetos[key])
+          //  mostrarTareas(objetos[key])
         }
         crearEvento()
       console.log(objetos)
@@ -72,9 +96,7 @@ var realizarTask = function(event){
     var tareaObjeto = localStorage.getItem("td"+event.currentTarget.parentNode.id)
     var tarea = JSON.parse(tareaObjeto)  
         tarea.completado = true 
-        localStorage.setItem(event.currentTarget.parentNode.id,JSON.stringify(tarea))
-    showTask.innerHTML = ""
-    cargarTareas()  
+        almacenar(tarea.id,tarea)        
 }
 
 var almacenarTareaEditada = function (event) {
@@ -110,3 +132,17 @@ var ordenarPorId = function (objetos,sortOrder){//sortOrder debe ser 1 o -1
     })    
     return objetos
     }
+
+
+var tarea = firebase.database().ref('tareas/');
+tarea.on('value', function(snapshot) {
+    showTask.innerHTML = "" 
+    // updateStarCount(postElement, snapshot.val()); 
+    console.log(snapshot.val())
+    fireBase.innerHTML = JSON.stringify(snapshot.val())
+    objetosFireBase = snapshot.val()
+    for (var key in objetosFireBase) {
+        console.log(objetosFireBase[key])
+        mostrarTareas(objetosFireBase[key])
+    }
+});
