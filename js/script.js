@@ -1,7 +1,8 @@
 /*
 1. ingresar tareas (asignar: id unico, titulo, descripcion,completado)"objeto"dentro de un array
 2. mostrar las tareas ingresadas
-3. formatear las tareas segun el estado
+3. formatear las tareas segun el estadocd..
+
 4. metodos para eliminar , completar, descompletar, editar,     buscar
 */
 
