@@ -22,7 +22,7 @@ var obTarea ={}
     desc: "algo"
 }*/
 
-function CrearTarea(titulo,desc){ //constructor del objeto tarea
+function crearTarea(titulo,desc){ //constructor del objeto tarea
     this.id="td"+Date.now()  //metodo para generar el id unico
     this.titulo= titulo
     this.desc=desc
@@ -38,7 +38,7 @@ var addTask= function(event){
     event.preventDefault()
     var titulo = form[0].value
     var desc = form[1].value
-        obTarea = new CrearTarea(titulo,desc)
+        obTarea = new crearTarea(titulo,desc)
         almacenar(obTarea.id,obTarea)
     console.log(obTarea)
 }
@@ -59,7 +59,7 @@ var recuperarTareas = function (){ //busco las tareas en LocalStorage y las mues
         if (clave.indexOf("td") != -1) { //*****MEJORAR ESTA CONDICION PARA VER SI ES UN DATO DEL TODO LIST O OTRO*****
             //console.log(tareaID)
            
-                var tarea = JSON.parse(tareaID)
+            var tarea = JSON.parse(tareaID)
             mostrarTareas(tarea.id,tarea.titulo,tarea.desc,tarea.completado) 
             
                     
