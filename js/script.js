@@ -55,7 +55,7 @@ var cargarTareas = function (tipoOrden){ //busco las tareas en LocalStorage y la
             showTask.innerHTML = "<h3>No hay tareas</h3>"}//esto solo se muestra si hay algun dato en LS y no es una clave de la todo list
         }
         //muestro las tareas ordenadas desc con el parametro "1" para que sea ASC poner "-1"
-        ordenarPorId(objetos,"1")
+        ordenarPorId(objetos,"-1")
         for (var key in objetos) {
             mostrarTareas(objetos[key])
         }
