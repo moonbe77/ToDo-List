@@ -34,17 +34,12 @@ newBox.innerHTML = boxContent
 showTask.appendChild(newBox) 
 }
 
-
-
-
 var fade = function(){
     for (var i = 0; i < box.length; i++) {
         box[i].className += " fade-in" 
         console.log("fade")   
     }   
 }
-
-
 
 var mostrarModal= function(){    
     modal.classList.toggle("is-active") //con toggle lo que hace es agregar o quitar la clase si ya fue agregada    
