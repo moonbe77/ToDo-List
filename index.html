@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.min.css">
     <link rel="stylesheet" href="style/style.css">
   </head>
-  <body onload=" cargarTareas()">
+  <body onload="cargarTareas('1','id')">
     <section class="hero is-dark is-bold">
           <div class="hero-body">
             <div class="container">
@@ -27,7 +27,9 @@
               <div class="columns">
           <div class="column is-half" > 
               <div class="opciones">
-                  <button class="button ordenar">Ordenar</button>
+                  <button id="ordenarXid" class="button btnOrdenar asc" onclick="cargarTareas('-1', 'id')">Ord. x ID</button>
+                  <button id="ordenarXtitulo" class="button btnOrdenar asc" onclick="cargarTareas('-1', 'titulo')">Ord. x Titulo</button>
+
                   <div class="field has-addons">
                       <div class="control">
                         <input class="input" type="text" placeholder="buscar">
@@ -133,5 +135,8 @@
       </footer>
   <script src="js/render.js" ></script>
   <script src="js/script.js" ></script>
+  <script>
+ 
+  </script>
   </body>
 </html>

@@ -4,14 +4,19 @@ var showTask = document.getElementById("showTask")
 var eliminar = document.getElementsByClassName("eliminar")
 var editar = document.getElementsByClassName("editar")
 var realizado = document.getElementsByClassName("realizado")
+var box = document.getElementsByClassName("box")
 var modal = document.getElementById("modal")
+
+//var btnOrdenarXid = document.getElementById("ordenarXid").addEventListener('click', cargarTareas("1", "id"))
+//var btnOrdenarXtitulo = document.getElementById("ordenarXtitulo").addEventListener('click', cargarTareas("1", "titulo"))
+
 
 var mostrarTareas= function (tarea){     
     //var res = Number(tarea.id.slice(2)) //esta variable quita el td al id que es la fecha de cracion para obtener la fecha
     var fecha = devolverFecha(tarea.id)
 /*usando nueva sintaxis para concatenar variables*/
 var boxContent = `
-<div class="box  ${'completado-'+tarea.completado}">\    
+<div class="box fade-out ${'completado-'+tarea.completado}">\    
     <div class="titulo is-primary is-bold center"><b>${tarea.titulo}</b>
     <div class="fecha">${fecha}</div>\
     </div>\
@@ -26,9 +31,20 @@ var boxContent = `
 </div>`;    
 var newBox = document.createElement("div")
 newBox.innerHTML = boxContent
-showTask.appendChild(newBox)
-crearEvento()    
+showTask.appendChild(newBox) 
 }
+
+
+
+
+var fade = function(){
+    for (var i = 0; i < box.length; i++) {
+        box[i].className += " fade-in" 
+        console.log("fade")   
+    }   
+}
+
+
 
 var mostrarModal= function(){    
     modal.classList.toggle("is-active") //con toggle lo que hace es agregar o quitar la clase si ya fue agregada    
@@ -39,6 +55,7 @@ function crearEvento(){
         eliminar[i].addEventListener('click', removeTask)
         editar[i].addEventListener('click', editarTask)
         realizado[i].addEventListener('click', realizarTask)
+         box.className += "fade-in-show"
     } 
 }
 
@@ -55,3 +72,5 @@ var editarTask = function(event){
 
     mostrarModal()             
 }
+
+

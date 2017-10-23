@@ -34,10 +34,10 @@ var addTask= function(event){
 var almacenar = function (id,objetoTarea) {
     localStorage.setItem("td"+id,JSON.stringify(objetoTarea))
     //tarea.id       
-    cargarTareas()
+    cargarTareas("1","titulo")
 }
 
-var cargarTareas = function (tipoOrden){ //busco las tareas en LocalStorage y las muestro usando la funcion mostrarTareas()
+var cargarTareas = function (tipoOrden, ordenXprop){ //busco las tareas en LocalStorage y las muestro usando la funcion mostrarTareas()
     showTask.innerHTML = "" 
     objetos=[]
 
@@ -54,14 +54,15 @@ var cargarTareas = function (tipoOrden){ //busco las tareas en LocalStorage y la
         }else{
             showTask.innerHTML = "<h3>No hay tareas</h3>"}//esto solo se muestra si hay algun dato en LS y no es una clave de la todo list
         }
+        console.log(localStorage.length)
+        
+        //METODOS PARA ORDENAR
         //muestro las tareas ordenadas desc con el parametro "1" para que sea ASC poner "-1"
-        ordenarPorId(objetos,"-1")
-        for (var key in objetos) {
-            mostrarTareas(objetos[key])
-        }
-        crearEvento()
-      console.log(objetos)
-      //return objetos
+
+        console.log(objetos)
+        ordenarPorId(objetos,tipoOrden,ordenXprop) //llamado a la funcion para ordenar el array de objetos y pasaro a mostrar
+             
+        //return objetos
 }
 
 //funcion para eliminar tareas
@@ -72,7 +73,8 @@ var removeTask = function(event){
         console.log("Removiendo Tarea id=", event.currentTarget.parentNode.id)
     }    
     showTask.innerHTML = ""
-    cargarTareas()    
+    cargarTareas("1","id")
+    
 }
 
 var realizarTask = function(event){
@@ -80,9 +82,10 @@ var realizarTask = function(event){
     var tareaObjeto = localStorage.getItem("td"+event.currentTarget.parentNode.id)
     var tarea = JSON.parse(tareaObjeto)  
         tarea.completado = true 
-        localStorage.setItem(event.currentTarget.parentNode.id,JSON.stringify(tarea))
+        localStorage.setItem("td"+event.currentTarget.parentNode.id,JSON.stringify(tarea))
     showTask.innerHTML = ""
-    cargarTareas()  
+    cargarTareas("1","id")
+    
 }
 
 var almacenarTareaEditada = function (event) {
@@ -90,7 +93,7 @@ var almacenarTareaEditada = function (event) {
     var tdId = Number(formModal[0].value) // paso a numero para que que al validar la fecha no de error por ser string
     var titulo = formModal[1].value
     var desc = formModal[2].value
-    var realizado = "false"
+    var realizado = false
         objeto = new CrearTarea(tdId,titulo,desc,realizado)
         almacenar(tdId,objeto)
     console.log("Editado: ",objeto)
@@ -110,11 +113,19 @@ var devolverFecha = function(fechaT){
 
 
 
-var ordenarPorId = function (objetos,sortOrder){//sortOrder debe ser 1 o -1
+var ordenarPorId = function (objetos, sortOrder, prop){//sortOrder debe ser 1 o -1 || *prop es la propiedad por la que se va a ordenar
     objetos.sort(function(a,b){ 
         // La función de ordenamiento devuelve la comparación entre property de a y b.
          // El resultado será afectado por sortOrder. 
-        return (a.id-b.id)*sortOrder; 
+        console.log("Ordenando por:"+prop+"||"+sortOrder)
+        return (a.id - b.id)*sortOrder      
     })    
-    return objetos
+    console.log(objetos)
+    for (var key in objetos) {
+        mostrarTareas(objetos[key])
     }
+    
+    crearEvento()
+    setTimeout(fade, 500)
+}
+
